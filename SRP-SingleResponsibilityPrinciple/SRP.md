@@ -93,3 +93,5 @@ class DisplayPerson {
     }
 }
 ```
+
+#### With this, you will have fulfilled the single-responsibility principle, meaning our classes now have just one reason to change. If you want to change the DisplayPerson class, it won't affect the ValidatePerson class.
