@@ -38,3 +38,58 @@ class ValidatePerson{
     }
 }
 ```
+
+- The Display() method goes against the SRP because the goal is that a class should have only one job and do one thing.
+    - The ValidatePerson class does two jobs - it validates the person's name and age, and then displays some information.
+    - To avoid confusion, yes, the ValidateName() and ValidateAge() job(s) are considered "one" job.
+
+- The way to avoid this problem is to separate code that supports different actions and jobs so that each class only performs one job and has one reason to change.
+
+- This means that the ValidatePerson class will only be responsible for validating a person (user), as seen below:
+
+```JS
+class ValidatePerson {
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    ValidateName(name) {
+        if (name.length > 3) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    ValidateAge(age) {
+        if (age > 21) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
+```
+- While the new class DisplayPerson will now be responsible for displaying a person, as you can see in the code block below:
+
+```JS
+class DisplayPerson {
+    constructor(name, age) {
+        this.name = name;
+        this.age = age;
+        this.validate = new ValidatePerson(this.name, this,age);
+    }
+
+    Display() {
+        if (
+            this.validate.ValidateName(this.name) &&
+            this.validate.ValidateAge(this.age)
+        ) {
+            console.log(`Name: ${this.name} and Age: ${this.age}`);
+        } else {
+            console.log('Invalid');
+        }
+    }
+}
+```
